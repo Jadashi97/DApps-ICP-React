@@ -10,23 +10,24 @@ function App() {
 
   function addNote(newNote) {
     setNotes(prevNotes => {
-      dkeeper.createNote(newNote.title, newNote.content)
+      dkeeper.createNote(newNote.title, newNote.content) //createNote function from backend
       return [newNote, ...prevNotes];
     });
   }
 
   useEffect(()=>{
-    console.log("useEffect is triggered");
+    // console.log("useEffect is triggered");
     fetchData();
   },[]);
 
   async function fetchData(){
-    const notesArray = await dkeeper.readNotes();
+    const notesArray = await dkeeper.readNotes(); //readNotes function from backend
     setNotes(notesArray);
   }
 
   function deleteNote(id) {
     setNotes(prevNotes => {
+      dkeeper.removeNote(id); //import and use the function from backend
       return prevNotes.filter((noteItem, index) => {
         return index !== id;
       });

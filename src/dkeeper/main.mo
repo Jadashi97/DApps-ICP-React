@@ -1,5 +1,7 @@
 import List "mo:base/List";
 import Debug "mo:base/Debug";
+import take "mo:base/Debug";
+import drop "mo:base/Debug";
 
 actor Dkeeper {
 
@@ -8,7 +10,7 @@ actor Dkeeper {
     content : Text;
   };
 
-  var notes : List.List<Note> = List.nil<Note>(); //create an empty array notes
+  stable var notes : List.List<Note> = List.nil<Note>(); //create an empty array notes
 
   public func createNote(titleText : Text, contentText : Text) {
 
@@ -17,12 +19,22 @@ actor Dkeeper {
       content = contentText;
     };
 
-    notes := List.push(newNote, notes);
+    notes := List.push(newNote, notes); //use push function
 
-    Debug.print(debug_show (notes));
+    // Debug.print(debug_show (notes));
   };
 
   public query func readNotes() : async [Note] {
     return List.toArray(notes);
+  };
+
+  public func removeNote(id : Nat) {
+
+    let listFront = List.take(notes, id); //use the take function to return notes
+    let listBack = List.drop(notes, id + 1); //use the drop function
+
+    notes := List.append(listFront, listBack); //uses the append func to
+
+    // Debug.print(debug_show (notes));
   };
 };
